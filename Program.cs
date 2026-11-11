@@ -8,98 +8,255 @@ namespace Lab4_Tasks6_7
     {
         private static void Main(string[] args)
         {
-            double x1 = ReadDouble(
-                "Введите x первого отрезка: ");
-            double y1 = ReadDouble(
-                "Введите y первого отрезка: ");
+            TestConstructorsAndProperties();
 
-            double x2 = ReadDouble(
-                "Введите x второго отрезка: ");
-            double y2 = ReadDouble(
-                "Введите y второго отрезка: ");
+            TestUnaryOperator();
+            TestConversions();
 
-            LineSegment first = new LineSegment(x1, y1);
-            LineSegment second = new LineSegment(x2, y2);
+            TestLeftAddition();
+            TestRightAddition();
 
+            TestIntersection();
+            TestComparison();
+        }
+
+        private static void TestConstructorsAndProperties()
+        {
             Console.WriteLine();
-            Console.WriteLine("Исходные отрезки:");
-            Console.WriteLine("Первый: " + first);
-            Console.WriteLine("Второй: " + second);
+            Console.WriteLine("ПРОВЕРКА КОНСТРУКТОРОВ");
 
-            Console.WriteLine();
-            Console.WriteLine("Проверка преобразований:");
-
-            int integerValue = first;
-            double doubleValue = (double)first;
+            LineSegment defaultSegment =
+                new LineSegment();
 
             Console.WriteLine(
-                "Преобразование в int: " + integerValue);
+                "Без параметров: " +
+                defaultSegment.ToString());
+
+            double value = ReadDouble(
+                "Введите значение: ");
+
+            LineSegment oneValueSegment =
+                new LineSegment(value);
+
             Console.WriteLine(
-                "Преобразование в double: " + doubleValue);
+                "С одним параметром: " +
+                oneValueSegment.ToString());
+
+            double x = ReadDouble(
+                "Введите координату X: ");
+
+            double y = ReadDouble(
+                "Введите координату Y: ");
+
+            LineSegment twoValuesSegment =
+                new LineSegment(x, y);
+
+            Console.WriteLine(
+                "С двумя параметрами: " +
+                twoValuesSegment.ToString());
 
             Console.WriteLine();
-            Console.WriteLine("Проверка сложения:");
+            Console.WriteLine("ПРОВЕРКА СВОЙСТВ");
 
-            LineSegment sumRight = first + 3;
-            LineSegment sumLeft = 3 + first;
+            x = ReadDouble("Введите новое значение X: ");
+            y = ReadDouble("Введите новое значение Y: ");
+
+            twoValuesSegment.X = x;
+            twoValuesSegment.Y = y;
 
             Console.WriteLine(
-                "Отрезок + 3: " + sumRight);
-            Console.WriteLine(
-                "3 + отрезок: " + sumLeft);
+                "После изменения свойств: " +
+                twoValuesSegment.ToString());
+        }
 
+        private static void TestUnaryOperator()
+        {
             Console.WriteLine();
-            Console.WriteLine("Проверка пересечения:");
+            Console.WriteLine("ПРОВЕРКА ОПЕРАТОРА !");
 
-            LineSegment sumIntersection =
-                sumRight.FindIntersection(second);
+            double x = ReadDouble("Введите X: ");
+            double y = ReadDouble("Введите Y: ");
 
-            if (sumIntersection == null)
-            {
-                Console.WriteLine(
-                    "После сложения пересечения нет.");
-            }
-            else
-            {
-                Console.WriteLine(
-                    "Пересечение после отрезок + 3: " +
-                    sumIntersection);
-            }
+            LineSegment segment =
+                new LineSegment(x, y);
+
+            LineSegment result = !segment;
+
+            Console.WriteLine(
+                "Исходный отрезок: " + segment);
+
+            Console.WriteLine(
+                "Результат операции !: " + result);
+        }
+
+        private static void TestConversions()
+        {
+            Console.WriteLine();
+            Console.WriteLine("ПРОВЕРКА ПРЕОБРАЗОВАНИЙ");
+
+            double x = ReadDouble("Введите X: ");
+            double y = ReadDouble("Введите Y: ");
+
+            LineSegment segment =
+                new LineSegment(x, y);
+
+            int integerValue = segment;
+            double doubleValue = (double)segment;
+
+            Console.WriteLine(
+                "Исходный отрезок: " + segment);
+
+            Console.WriteLine(
+                "Преобразование в int: " +
+                integerValue);
+
+            Console.WriteLine(
+                "Преобразование в double: " +
+                doubleValue);
+        }
+
+        private static void TestLeftAddition()
+        {
+            Console.WriteLine();
+            Console.WriteLine(
+                "ПРОВЕРКА ОПЕРАТОРА + (ОТРЕЗОК + ЧИСЛО)");
+
+            double x = ReadDouble("Введите X: ");
+            double y = ReadDouble("Введите Y: ");
+
+            int value = ReadInt("Введите целое число: ");
+
+            LineSegment original =
+                new LineSegment(x, y);
+
+            LineSegment segment = !original;
+
+            LineSegment result = segment + value;
+
+            Console.WriteLine(
+                "Исходный отрезок: " + original);
+
+            Console.WriteLine(
+                "Исправленный отрезок: " + segment);
+
+            Console.WriteLine(
+                "Результат сложения: " + result);
+        }
+
+        private static void TestRightAddition()
+        {
+            Console.WriteLine();
+            Console.WriteLine(
+                "ПРОВЕРКА ОПЕРАТОРА + (ЧИСЛО + ОТРЕЗОК)");
+
+            double x = ReadDouble("Введите X: ");
+            double y = ReadDouble("Введите Y: ");
+
+            int value = ReadInt("Введите целое число: ");
+
+            LineSegment original =
+                new LineSegment(x, y);
+
+            LineSegment segment = !original;
+
+            LineSegment result = value + segment;
+
+            Console.WriteLine(
+                "Исходный отрезок: " + original);
+
+            Console.WriteLine(
+                "Исправленный отрезок: " + segment);
+
+            Console.WriteLine(
+                "Результат сложения: " + result);
+        }
+
+        private static void TestIntersection()
+        {
+            Console.WriteLine();
+            Console.WriteLine("ПРОВЕРКА ПЕРЕСЕЧЕНИЯ");
+
+            Console.WriteLine("Первый отрезок:");
+
+            double x1 = ReadDouble("Введите X: ");
+            double y1 = ReadDouble("Введите Y: ");
+
+            Console.WriteLine("Второй отрезок:");
+
+            double x2 = ReadDouble("Введите X: ");
+            double y2 = ReadDouble("Введите Y: ");
+
+            LineSegment first =
+                new LineSegment(x1, y1);
+
+            LineSegment second =
+                new LineSegment(x2, y2);
 
             LineSegment correctedFirst = !first;
             LineSegment correctedSecond = !second;
-
-            Console.WriteLine();
-            Console.WriteLine("Проверка оператора !:");
-
-            Console.WriteLine(
-                "Первый после !: " + correctedFirst);
-            Console.WriteLine(
-                "Второй после !: " + correctedSecond);
 
             LineSegment intersection =
                 correctedFirst.FindIntersection(
                     correctedSecond);
 
+            Console.WriteLine(
+                "Первый исправленный: " +
+                correctedFirst);
+
+            Console.WriteLine(
+                "Второй исправленный: " +
+                correctedSecond);
+
             if (intersection == null)
             {
                 Console.WriteLine(
-                    "Пересечения исправленных отрезков нет.");
+                    "Пересечения нет.");
             }
             else
             {
                 Console.WriteLine(
-                    "Пересечение исправленных отрезков: " +
-                    intersection);
+                    "Пересечение: " + intersection);
             }
+        }
 
+        private static void TestComparison()
+        {
             Console.WriteLine();
-            Console.WriteLine("Проверка оператора >:");
+            Console.WriteLine("ПРОВЕРКА ОПЕРАТОРА >");
 
-            bool isGreater = first > second;
+            Console.WriteLine("Первый отрезок:");
+
+            double x1 = ReadDouble("Введите X: ");
+            double y1 = ReadDouble("Введите Y: ");
+
+            Console.WriteLine("Второй отрезок:");
+
+            double x2 = ReadDouble("Введите X: ");
+            double y2 = ReadDouble("Введите Y: ");
+
+            LineSegment first =
+                new LineSegment(x1, y1);
+
+            LineSegment second =
+                new LineSegment(x2, y2);
+
+            LineSegment correctedFirst = !first;
+            LineSegment correctedSecond = !second;
+
+            bool result =
+                correctedFirst > correctedSecond;
 
             Console.WriteLine(
-                "Первый содержит второй: " + isGreater);
+                "Первый исправленный: " +
+                correctedFirst);
+
+            Console.WriteLine(
+                "Второй исправленный: " +
+                correctedSecond);
+
+            Console.WriteLine(
+                "Первый отрезок включает второй: " +
+                result);
         }
 
         private static double ReadDouble(string message)
@@ -123,6 +280,31 @@ namespace Lab4_Tasks6_7
                 {
                     Console.WriteLine(
                         "Ошибка! Введите число.");
+                }
+            }
+
+            return value;
+        }
+
+        private static int ReadInt(string message)
+        {
+            int value = 0;
+            bool isValid = false;
+
+            while (!isValid)
+            {
+                Console.Write(message);
+
+                string? input = Console.ReadLine();
+
+                isValid = int.TryParse(
+                    input,
+                    out value);
+
+                if (!isValid)
+                {
+                    Console.WriteLine(
+                        "Ошибка! Введите целое число.");
                 }
             }
 

@@ -1,26 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using System;
 
 namespace Lab4_Tasks6_7
 {
-    public class LineSegment
+    internal class LineSegment
     {
         private double _x;
         private double _y;
 
         public double X
         {
-            get { return _x; }
-            set { _x = value; }
+            get
+            {
+                return _x;
+            }
+            set
+            {
+                _x = value;
+            }
         }
 
         public double Y
         {
-            get { return _y; }
-            set { _y = value; }
+            get
+            {
+                return _y;
+            }
+            set
+            {
+                _y = value;
+            }
         }
 
         public LineSegment()
@@ -44,31 +53,13 @@ namespace Lab4_Tasks6_7
         public LineSegment FindIntersection(
             LineSegment other)
         {
-            double start = 0;
-            double end = 0;
-
             if (other == null)
             {
                 return null;
             }
 
-            if (_x > other._x)
-            {
-                start = _x;
-            }
-            else
-            {
-                start = other._x;
-            }
-
-            if (_y < other._y)
-            {
-                end = _y;
-            }
-            else
-            {
-                end = other._y;
-            }
+            double start = Math.Max(_x, other._x);
+            double end = Math.Min(_y, other._y);
 
             if (start > end)
             {
@@ -91,20 +82,22 @@ namespace Lab4_Tasks6_7
                 return null;
             }
 
-            if (segment._x <= segment._y)
+            double x = segment._x;
+            double y = segment._y;
+
+            if (x <= y)
             {
-                return new LineSegment(
-                    segment._x, segment._y);
+                return new LineSegment(x, y);
             }
 
-            if (segment._x > 0 && segment._y > 0)
+            if (x > 0 && y > 0)
             {
-                return new LineSegment(0, segment._y);
+                return new LineSegment(0, y);
             }
 
-            if (segment._x < 0 && segment._y < 0)
+            if (x < 0 && y < 0)
             {
-                return new LineSegment(segment._x, 0);
+                return new LineSegment(x, 0);
             }
 
             return new LineSegment(0, 0);
@@ -123,31 +116,31 @@ namespace Lab4_Tasks6_7
         }
 
         public static LineSegment operator +(
-    LineSegment segment, int value)
+            LineSegment segment, int value)
         {
-            if (segment == null)
+            double x = segment._x + value;
+            double y = segment._y;
+
+            if (x <= y)
             {
-                return null;
+                return new LineSegment(x, y);
             }
 
-            LineSegment result = new LineSegment(
-                segment._x + value, segment._y);
-
-            return !result;
+            return new LineSegment(y, x);
         }
 
         public static LineSegment operator +(
-    int value, LineSegment segment)
+            int value, LineSegment segment)
         {
-            if (segment == null)
+            double x = segment._x;
+            double y = segment._y + value;
+
+            if (x <= y)
             {
-                return null;
+                return new LineSegment(x, y);
             }
 
-            LineSegment result = new LineSegment(
-                segment._x, segment._y + value);
-
-            return !result;
+            return new LineSegment(y, x);
         }
 
         public static bool operator >(
@@ -162,16 +155,6 @@ namespace Lab4_Tasks6_7
                 first._y >= second._y;
         }
 
-        public static bool operator <(
-            LineSegment first, LineSegment second)
-        {
-            if (first == null || second == null)
-            {
-                return false;
-            }
-
-            return first._x >= second._x &&
-                first._y <= second._y;
-        }
+       
     }
 }

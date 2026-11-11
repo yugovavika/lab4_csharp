@@ -8,8 +8,9 @@ namespace Lab4_Tasks1_5
 {
     internal class CollectionTasks
     {
-        public static List<int> RepeatEachElementTwice(
-            List<int> source)
+        public static List<int> RepeatElementTwice(
+        List<int> source,
+        int element)
         {
             if (source == null)
             {
@@ -23,7 +24,11 @@ namespace Lab4_Tasks1_5
             while (index < source.Count)
             {
                 result.Add(source[index]);
-                result.Add(source[index]);
+
+                if (source[index] == element)
+                {
+                    result.Add(source[index]);
+                }
 
                 index++;
             }
@@ -32,7 +37,8 @@ namespace Lab4_Tasks1_5
         }
 
 
-        public static LinkedList<int> ReverseBetweenMinMax(
+
+        public static LinkedList<int> SwapFragmentsBetweenMinMax(
             LinkedList<int> source)
         {
             if (source == null)
@@ -50,7 +56,7 @@ namespace Lab4_Tasks1_5
                 current = current.Next;
             }
 
-            if (result.Count < 3)
+            if (result.Count < 4)
             {
                 return result;
             }
@@ -59,6 +65,7 @@ namespace Lab4_Tasks1_5
             LinkedListNode<int> maximumNode = result.First;
 
             current = result.First;
+
             int index = 0;
             int minimumIndex = 0;
             int maximumIndex = 0;
@@ -81,40 +88,71 @@ namespace Lab4_Tasks1_5
                 index++;
             }
 
-            LinkedListNode<int> leftNode = null;
-            LinkedListNode<int> rightNode = null;
+            int leftIndex = minimumIndex;
+            int rightIndex = maximumIndex;
 
-            if (minimumIndex < maximumIndex)
+            if (leftIndex > rightIndex)
             {
-                leftNode = minimumNode.Next;
-                rightNode = maximumNode.Previous;
-            }
-            else
-            {
-                leftNode = maximumNode.Next;
-                rightNode = minimumNode.Previous;
+                leftIndex = maximumIndex;
+                rightIndex = minimumIndex;
             }
 
-            int fragmentLength = Math.Abs(
-                minimumIndex - maximumIndex) - 1;
+            int fragmentLength = rightIndex - leftIndex - 1;
 
-            int swaps = fragmentLength / 2;
-            int temporary = 0;
+            int firstPartLength = fragmentLength / 2;
+            int secondPartLength =
+                fragmentLength - firstPartLength;
 
-            while (swaps > 0)
+            int[] fragment = new int[fragmentLength];
+
+            current = result.First;
+            index = 0;
+
+            while (index <= leftIndex)
             {
-                temporary = leftNode.Value;
-                leftNode.Value = rightNode.Value;
-                rightNode.Value = temporary;
+                current = current.Next;
+                index++;
+            }
 
-                leftNode = leftNode.Next;
-                rightNode = rightNode.Previous;
+            index = 0;
 
-                swaps--;
+            while (index < fragmentLength)
+            {
+                fragment[index] = current.Value;
+                current = current.Next;
+                index++;
+            }
+
+            current = result.First;
+            index = 0;
+
+            while (index <= leftIndex)
+            {
+                current = current.Next;
+                index++;
+            }
+
+            index = firstPartLength;
+
+            while (index < fragmentLength)
+            {
+                current.Value = fragment[index];
+                current = current.Next;
+                index++;
+            }
+
+            index = 0;
+
+            while (index < firstPartLength)
+            {
+                current.Value = fragment[index];
+                current = current.Next;
+                index++;
             }
 
             return result;
         }
+
 
 
 
